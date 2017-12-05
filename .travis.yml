@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "7.9"
+install:
+  - yarn install
+notifications:
+  email:
+    on_success: change
+    on_failure: always
