@@ -4,6 +4,7 @@
   "description": "Code Reader",
   "version": "0.0.1",
   "publisher": "ryu1kn",
+  "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
     "vscode": "^1.18.0"
   },
