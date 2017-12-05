@@ -3,6 +3,8 @@ node_js:
   - "7.9"
 install:
   - yarn install
+script:
+  - yarn run lint
 notifications:
   email:
     on_success: change

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ryu1kn/vscode-code-reading.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-code-reading)
+
 # Code Reading
 
 This is the README for your extension "code-reading". After writing up a brief description, we recommend including the following sections.
