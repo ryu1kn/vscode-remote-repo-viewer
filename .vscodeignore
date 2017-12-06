@@ -1,6 +1,7 @@
 .vscode/**
 .vscode-test/**
 test/**
+yarn-error.log
 .gitignore
 jsconfig.json
 vsc-extension-quickstart.md

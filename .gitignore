@@ -1,4 +1,6 @@
-/node_modules
+.DS_Store
 /.vscode-test
-/.vsix
 /.vscode/settings.json
+/.vsix
+node_modules
+yarn-error.log

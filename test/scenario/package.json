@@ -1,0 +1,11 @@
+{
+  "name": "vscode-code-reading-scenario",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "cucumber": "^3.1.0",
+    "mocha": "^4.0.1"
+  }
+}
