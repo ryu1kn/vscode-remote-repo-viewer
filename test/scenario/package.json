@@ -1,6 +1,7 @@
 {
   "name": "vscode-code-reading-scenario",
   "scripts": {
+    "pretest": "yarn",
     "test": "cucumber-js"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ install:
   - yarn install
 script:
   - yarn run lint
+  - yarn run test:scenario
 notifications:
   email:
     on_success: change
