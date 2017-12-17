@@ -1,16 +1,16 @@
 const vscode = require('vscode')
+const childProcess = require('child_process')
+const App = require('./lib/app')
 
-exports.activate = function (context) {
+const app = new App({ vscode, childProcess })
+
+exports.activate = context => {
   const disposable = vscode.commands.registerCommand(
     'codeReading.openRepository',
-    function () {
-      const location = vscode.workspace
-        .getConfiguration('codeReading')
-        .get('repositorySaveLocation')
-      vscode.window.showInformationMessage(`Location: ${location}`)
-    }
+    app.fetchRepository,
+    app
   )
   context.subscriptions.push(disposable)
 }
 
-exports.deactivate = function () {}
+exports.deactivate = () => {}
