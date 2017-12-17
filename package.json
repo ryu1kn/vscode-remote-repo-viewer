@@ -26,16 +26,19 @@
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "lint": "eslint .",
-    "test": "node ./node_modules/vscode/bin/test",
+    "test": "yarn run test:unit && yarn run test:scenario",
+    "test:unit": "mocha --ui tdd test/unit",
     "test:scenario": "cd test/scenario && yarn test"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.12.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^4.0.1",
     "vscode": "^1.1.9"
   }
 }
