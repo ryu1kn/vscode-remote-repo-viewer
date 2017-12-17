@@ -2,7 +2,7 @@
 
 # Code Reading
 
-This is the README for your extension "code-reading". After writing up a brief description, we recommend including the following sections.
+Use your favourite editor (i.e. VS Code) to do code reading.
 
 ## Features
 

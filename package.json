@@ -12,16 +12,28 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onCommand:codeReading.openRepository"
   ],
   "main": "./extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
+        "command": "codeReading.openRepository",
+        "title": "Open repository in a new window",
+        "category": "CodeReading"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Code Reading configurations",
+      "properties": {
+        "codeReading.repositorySaveLocation": {
+          "description": "Path to a directory where repositories are saved",
+          "type": "string",
+          "default": "$HOME/code-reading"
+        }
+      }
+    }
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
