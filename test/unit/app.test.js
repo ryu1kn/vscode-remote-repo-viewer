@@ -3,17 +3,17 @@ const App = require('../../lib/app')
 
 suite('App', () => {
   test('it downloads the git repository into a specified directory', async () => {
-    const childProcess = td.object(['spawn'])
-    await createApp({ childProcess }).fetchRepository()
+    const shellCommandRunner = td.object(['run'])
+    await createApp({ shellCommandRunner }).fetchRepository()
 
     td.verify(
-      childProcess.spawn('git', ['clone', 'REPOSITORY_URL'], {
+      shellCommandRunner.run('git', ['clone', 'REPOSITORY_URL'], {
         cwd: 'SAVE_DIR'
       })
     )
   })
 
-  function createApp ({ childProcess } = {}) {
+  function createApp ({ shellCommandRunner } = {}) {
     const extensionConfig = {
       get: configName => configName === 'repositorySaveLocation' && 'SAVE_DIR'
     }
@@ -26,6 +26,6 @@ suite('App', () => {
           extensionName === 'codeReading' && extensionConfig
       }
     }
-    return new App({ vscode, childProcess })
+    return new App({ vscode, shellCommandRunner })
   }
 })
