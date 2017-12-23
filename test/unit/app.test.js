@@ -10,10 +10,21 @@ suite('App', () => {
     }).fetchRepository()
 
     td.verify(
-      shellCommandRunner.run('git', ['clone', 'REPOSITORY_URL'], {
+      shellCommandRunner.run('git', ['clone', 'git@FOO.com:BAR/BAZ.git'], {
         cwd: 'SAVE_DIR'
       })
     )
+  })
+
+  test('it opens a new VS Code window to open the repository', async () => {
+    const shellCommandRunner = { run: () => Promise.resolve() }
+    const executeCommand = td.function()
+    await createApp({
+      shellCommandRunner,
+      executeCommand
+    }).fetchRepository()
+
+    td.verify(executeCommand('vscode.openFolder', 'URI', true))
   })
 
   test('it throws an exception if downloading encounters problem', () => {
@@ -31,17 +42,23 @@ suite('App', () => {
     )
   })
 
-  function createApp ({ shellCommandRunner } = {}) {
+  function createApp ({ shellCommandRunner, executeCommand } = {}) {
     const extensionConfig = {
       get: configName => configName === 'repositorySaveLocation' && 'SAVE_DIR'
     }
     const vscode = {
       window: {
-        showInputBox: () => Promise.resolve('REPOSITORY_URL')
+        showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
       },
       workspace: {
         getConfiguration: extensionName =>
           extensionName === 'codeReading' && extensionConfig
+      },
+      Uri: {
+        file: filePath => (filePath === 'SAVE_DIR/BAZ' ? 'URI' : 'NON_URI')
+      },
+      commands: {
+        executeCommand: executeCommand || (() => Promise.resolve())
       }
     }
     return new App({
