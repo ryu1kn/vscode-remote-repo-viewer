@@ -1,6 +1,6 @@
 const { expect } = require('chai')
 const td = require('testdouble')
-const App = require('../../lib/app')
+const AppFactory = require('../../lib/app-factory')
 
 suite('App', () => {
   test('it downloads the git repository into a specified directory', async () => {
@@ -61,9 +61,6 @@ suite('App', () => {
         executeCommand: executeCommand || (() => Promise.resolve())
       }
     }
-    return new App({
-      vscode,
-      shellCommandRunner
-    })
+    return new AppFactory().create({ vscode, shellCommandRunner })
   }
 })
