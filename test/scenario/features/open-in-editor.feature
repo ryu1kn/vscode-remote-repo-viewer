@@ -5,7 +5,6 @@ Feature: Open a GitHub repository on VS Code
   So that I can do effective code reading
 
   Scenario: Opening a GitHub repository on VS Code
-    Given the repository save location is "tmp"
-    When I invoke "Open repository" command
-    And I enter "git@github.com:ryu1kn/vscode-code-reading.git"
-    Then I see "vscode-code-reading" project open in a new window
+    Given the repository save location is "/tmp"
+    When I execute open repository command and enter "git@github.com:ryu1kn/vscode-code-reading.git"
+    Then I see "/tmp/vscode-code-reading" folder opened in a new window
