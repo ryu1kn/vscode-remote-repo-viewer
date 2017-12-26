@@ -4,12 +4,12 @@ const { expect } = require('chai')
 const VscUri = require('../../../lib/vscode/uri')
 
 suite('Uri', () => {
-  test('it holds the Uri object of VS Code', () => {
+  test('it holds the Uri object of VS Code @it', () => {
     const uri = createUri('/tmp')
     expect(uri.vscodeUri).to.be.instanceOf(vscode.Uri)
   })
 
-  test('the VS Code Uri object represents specified file path', () => {
+  test('the VS Code Uri object represents specified file path @it', () => {
     const uri = createUri('/tmp')
     expect(uri.vscodeUri.fsPath).to.eql('/tmp')
   })
