@@ -1,6 +1,6 @@
 const { expect } = require('chai')
 const td = require('testdouble')
-const AppFactory = require('../../lib/app-factory')
+const App = require('../../lib/app')
 
 suite('App', () => {
   test('it downloads the git repository into a specified directory', async () => {
@@ -43,24 +43,31 @@ suite('App', () => {
   })
 
   function createApp ({ shellCommandRunner, executeCommand } = {}) {
-    const extensionConfig = {
-      get: configName => configName === 'repositorySaveLocation' && 'SAVE_DIR'
+    const vscWindow = {
+      showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
     }
-    const vscode = {
-      window: {
-        showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
-      },
-      workspace: {
-        getConfiguration: extensionName =>
-          extensionName === 'codeReading' && extensionConfig
-      },
-      Uri: {
-        file: filePath => (filePath === 'SAVE_DIR/BAZ' ? 'URI' : 'NON_URI')
-      },
-      commands: {
-        executeCommand: executeCommand || (() => Promise.resolve())
-      }
+    const vscWorkspace = {
+      getConfig: (extensionName, configName) =>
+        extensionName === 'codeReading' &&
+        configName === 'repositorySaveLocation' &&
+        'SAVE_DIR'
     }
-    return new AppFactory().create({ vscode, shellCommandRunner })
+    const vscUri = {
+      file: filePath => ({
+        get vscodeUri () {
+          return filePath === 'SAVE_DIR/BAZ' ? 'URI' : 'NON_URI'
+        }
+      })
+    }
+    const vscCommands = {
+      executeCommand: executeCommand || (() => Promise.resolve())
+    }
+    return new App({
+      shellCommandRunner,
+      vscCommands,
+      vscUri,
+      vscWindow,
+      vscWorkspace
+    })
   }
 })
