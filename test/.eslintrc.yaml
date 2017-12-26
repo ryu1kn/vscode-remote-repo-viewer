@@ -1,3 +1,5 @@
 globals:
   suite: true
   test: global
+rules:
+  no-unused-expressions: off
