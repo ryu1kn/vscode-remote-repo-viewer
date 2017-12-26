@@ -40,6 +40,7 @@
     "lint": "eslint .",
     "test": "yarn run test:unit && yarn run test:scenario",
     "test:unit": "mocha --ui tdd test/unit",
+    "test:integration": "echo Run \"Extension Tests\" from VS Code Debug panel",
     "test:scenario": "cd test/scenario && yarn test"
   },
   "devDependencies": {
