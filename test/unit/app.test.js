@@ -24,7 +24,7 @@ suite('App', () => {
       executeCommand
     }).fetchRepository()
 
-    td.verify(executeCommand('vscode.openFolder', 'URI', true))
+    td.verify(executeCommand('vscode.openFolder', 'URI(SAVE_DIR/BAZ)', true))
   })
 
   test('it throws an exception if downloading encounters problem', () => {
@@ -55,7 +55,7 @@ suite('App', () => {
     const vscUri = {
       file: filePath => ({
         get vscodeUri () {
-          return filePath === 'SAVE_DIR/BAZ' ? 'URI' : 'NON_URI'
+          return `URI(${filePath})`
         }
       })
     }
