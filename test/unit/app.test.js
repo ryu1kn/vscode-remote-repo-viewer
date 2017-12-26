@@ -10,9 +10,11 @@ suite('App', () => {
     }).fetchRepository()
 
     td.verify(
-      shellCommandRunner.run('git', ['clone', 'git@FOO.com:BAR/BAZ.git'], {
-        cwd: 'SAVE_DIR'
-      })
+      shellCommandRunner.run('git', [
+        'clone',
+        'git@FOO.com:BAR/BAZ.git',
+        'SAVE_DIR/BAZ'
+      ])
     )
   })
 
