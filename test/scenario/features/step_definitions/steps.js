@@ -17,14 +17,7 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
   let repositorySaveDirectory
   let fakeExecuteCommand
 
-  BeforeAll(function () {
-    return new Promise((resolve, reject) => {
-      rimraf(TMP_DIR_PATH, err => {
-        if (err) reject(err)
-        else resolve()
-      })
-    })
-  })
+  BeforeAll(() => cleanDirectory(TMP_DIR_PATH))
 
   defineStep('the repository save location is {string}', saveDirectory => {
     repositorySaveDirectory = preProcessFilePath(saveDirectory)
@@ -55,6 +48,15 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
       )
     )
   })
+
+  function cleanDirectory (directoryPath) {
+    return new Promise((resolve, reject) => {
+      rimraf(directoryPath, err => {
+        if (err) reject(err)
+        else resolve()
+      })
+    })
+  }
 
   function preProcessFilePath (filePath) {
     return filePath.replace('{{feature-tmp-directory}}', TMP_DIR_PATH)
