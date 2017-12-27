@@ -17,6 +17,7 @@ script:
   - yarn run lint
   - yarn run test:unit
   - yarn run test:integration
+  - yarn run test:scenario
 notifications:
   email:
     on_success: change
