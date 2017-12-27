@@ -22,6 +22,8 @@ suite('App', () => {
     td.verify(
       shellCommandRunner.run('git', [
         'clone',
+        '--depth',
+        '1',
         'git@FOO.com:BAR/BAZ.git',
         'SAVE_DIR/BAZ'
       ])
