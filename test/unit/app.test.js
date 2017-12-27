@@ -3,6 +3,16 @@ const td = require('testdouble')
 const App = require('../../lib/app')
 
 suite('App', () => {
+  test('it tries to open a local copy of the repository', async () => {
+    const executeCommand = td.function()
+    await createApp({
+      executeCommand,
+      localRepositoryPath: 'SAVE_DIR/BAZ'
+    }).fetchRepository()
+
+    td.verify(executeCommand('vscode.openFolder', 'URI(SAVE_DIR/BAZ)', true))
+  })
+
   test('it downloads the git repository into a specified directory', async () => {
     const shellCommandRunner = td.object(['run'])
     await createApp({
@@ -44,7 +54,11 @@ suite('App', () => {
     )
   })
 
-  function createApp ({ shellCommandRunner, executeCommand } = {}) {
+  function createApp ({
+    shellCommandRunner,
+    executeCommand,
+    localRepositoryPath
+  } = {}) {
     const vscWindow = {
       showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
     }
@@ -64,12 +78,16 @@ suite('App', () => {
     const vscCommands = {
       executeCommand: executeCommand || (() => Promise.resolve())
     }
+    const fileStats = {
+      existsDirectory: path => Promise.resolve(path === localRepositoryPath)
+    }
     return new App({
       shellCommandRunner,
       vscCommands,
       vscUri,
       vscWindow,
-      vscWorkspace
+      vscWorkspace,
+      fileStats
     })
   }
 })
