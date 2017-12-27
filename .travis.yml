@@ -5,6 +5,9 @@ node_js:
 os:
   - osx
   - linux
+addons:
+  ssh_known_hosts:
+  - github.com
 before_install:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
       export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
