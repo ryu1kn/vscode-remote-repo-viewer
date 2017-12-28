@@ -30,6 +30,22 @@ suite('App', () => {
     )
   })
 
+  test('it expands environment variables in a path', async () => {
+    const shellCommandRunner = td.object(['run'])
+    await createApp({
+      shellCommandRunner,
+      repositorySaveDirectoryPath: '{{env.HOME}}/code-reading',
+      envVars: { HOME: '/PATH/TO/HOME' }
+    }).fetchRepository()
+
+    td.verify(
+      shellCommandRunner.run(
+        td.matchers.anything(),
+        td.matchers.contains('/PATH/TO/HOME/code-reading/BAZ')
+      )
+    )
+  })
+
   test('it opens a new VS Code window to open the repository', async () => {
     const shellCommandRunner = { run: () => Promise.resolve() }
     const executeCommand = td.function()
@@ -58,8 +74,10 @@ suite('App', () => {
 
   function createApp ({
     shellCommandRunner,
-    executeCommand,
-    localRepositoryPath
+    executeCommand = () => Promise.resolve(),
+    localRepositoryPath,
+    repositorySaveDirectoryPath = 'SAVE_DIR',
+    envVars = {}
   } = {}) {
     const vscWindow = {
       showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
@@ -68,7 +86,7 @@ suite('App', () => {
       getConfig: (extensionName, configName) =>
         extensionName === 'codeReading' &&
         configName === 'repositorySaveLocation' &&
-        'SAVE_DIR'
+        repositorySaveDirectoryPath
     }
     const vscUri = {
       file: filePath => ({
@@ -77,19 +95,19 @@ suite('App', () => {
         }
       })
     }
-    const vscCommands = {
-      executeCommand: executeCommand || (() => Promise.resolve())
-    }
+    const vscCommands = { executeCommand }
     const fileStats = {
       existsDirectory: path => Promise.resolve(path === localRepositoryPath)
     }
+    const envVarReader = { read: name => envVars[name] }
     return new App({
       shellCommandRunner,
       vscCommands,
       vscUri,
       vscWindow,
       vscWorkspace,
-      fileStats
+      fileStats,
+      envVarReader
     })
   }
 })

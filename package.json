@@ -30,7 +30,7 @@
         "codeReading.repositorySaveLocation": {
           "description": "Path to a directory where repositories are saved",
           "type": "string",
-          "default": "$HOME/code-reading"
+          "default": "{{env.HOME}}/code-reading"
         }
       }
     }
