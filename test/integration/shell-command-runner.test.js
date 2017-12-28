@@ -23,8 +23,8 @@ suite('ShellCommandRunner', () => {
     return shellCommandRunner.run('ls', ['NON_EXISTING_FILE']).then(
       () => new Error('Should have been failed'),
       e => {
-        expect(e.message).to.eql(
-          'ls: NON_EXISTING_FILE: No such file or directory'
+        expect(e.message).to.include(
+          'NON_EXISTING_FILE: No such file or directory'
         )
       }
     )
