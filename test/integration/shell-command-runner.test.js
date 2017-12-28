@@ -11,9 +11,12 @@ suite('ShellCommandRunner', () => {
     expect(output).to.eql('hello\n')
   })
 
-  test('it uses shell mode to expand environment variables in the command @it', async () => {
+  test('it makes environment variables available to the command @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
-    const output = await shellCommandRunner.run('echo', ['HOME is: $HOME'])
+    const output = await shellCommandRunner.run('sh', [
+      '-c',
+      'echo HOME is: $HOME'
+    ])
     expect(output).to.have.string('HOME is: /PATH/TO/HOME')
   })
 
