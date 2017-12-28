@@ -10,10 +10,10 @@ suite('ShellCommandRunner', () => {
     expect(output).to.eql('hello\n')
   })
 
-  test('it makes environment variables available to the command @it', async () => {
+  test('it uses shell mode to expand environment variables in the command @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
-    const output = await shellCommandRunner.run('sh', ['-c', 'echo $HOME'])
-    expect(output).to.match(/^\//)
+    const output = await shellCommandRunner.run('echo', ['HOME is: $HOME'])
+    expect(output).to.match(/^HOME is: \/.*/)
   })
 
   test('it raises an exception if command failed @it', () => {
