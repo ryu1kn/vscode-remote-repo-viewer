@@ -10,6 +10,14 @@ suite('ShellCommandRunner', () => {
     expect(output).to.eql('hello\n')
   })
 
+  test('it makes environment variables available to the command @it', async () => {
+    const shellCommandRunner = createShellCommandRunner()
+    const output = await shellCommandRunner.run('sh', ['-c', 'echo $KEY'], {
+      env: { KEY: 'VALUE' }
+    })
+    expect(output).to.eql('VALUE\n')
+  })
+
   test('it raises an exception if command failed @it', () => {
     const shellCommandRunner = createShellCommandRunner()
     return shellCommandRunner.run('ls', ['NON_EXISTING_FILE']).then(
