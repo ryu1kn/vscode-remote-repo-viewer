@@ -12,10 +12,8 @@ suite('ShellCommandRunner', () => {
 
   test('it makes environment variables available to the command @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
-    const output = await shellCommandRunner.run('sh', ['-c', 'echo $KEY'], {
-      env: { KEY: 'VALUE' }
-    })
-    expect(output).to.eql('VALUE\n')
+    const output = await shellCommandRunner.run('sh', ['-c', 'echo $HOME'])
+    expect(output).to.match(/^\//)
   })
 
   test('it raises an exception if command failed @it', () => {
