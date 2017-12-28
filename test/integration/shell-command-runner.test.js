@@ -1,6 +1,7 @@
 const { expect } = require('chai')
 
 const childProcess = require('child_process')
+const EnvVarReader = require('../../lib/env-var-reader')
 const ShellCommandRunner = require('../../lib/shell-command-runner')
 
 suite('ShellCommandRunner', () => {
@@ -13,7 +14,7 @@ suite('ShellCommandRunner', () => {
   test('it uses shell mode to expand environment variables in the command @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
     const output = await shellCommandRunner.run('echo', ['HOME is: $HOME'])
-    expect(output).to.match(/^HOME is: \/.*/)
+    expect(output).to.have.string('HOME is: /PATH/TO/HOME')
   })
 
   test('it raises an exception if command failed @it', () => {
@@ -29,6 +30,11 @@ suite('ShellCommandRunner', () => {
   })
 
   function createShellCommandRunner () {
-    return new ShellCommandRunner({ childProcess })
+    const envVars = { HOME: '/PATH/TO/HOME' }
+    const envVarReader = new EnvVarReader({ env: envVars })
+    return new ShellCommandRunner({
+      childProcess,
+      envVarReader
+    })
   }
 })
