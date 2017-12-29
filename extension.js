@@ -3,7 +3,7 @@ const childProcess = require('child_process')
 const fs = require('fs')
 
 const AppFactory = require('./lib/app-factory')
-const EnvVarReader = require('./env-var-reader')
+const EnvVarReader = require('./lib/env-var-reader')
 const ShellCommandRunner = require('./lib/shell-command-runner')
 
 const envVarReader = new EnvVarReader({ env: process.env })
