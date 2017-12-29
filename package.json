@@ -27,8 +27,8 @@
       "type": "object",
       "title": "Code Reading configurations",
       "properties": {
-        "codeReading.repositorySaveLocation": {
-          "description": "Path to a directory where repositories are saved",
+        "codeReading.repositoryStoreDirectoryPath": {
+          "description": "Path of the directory where repositories are saved",
           "type": "string",
           "default": "{{env.HOME}}/code-reading"
         }

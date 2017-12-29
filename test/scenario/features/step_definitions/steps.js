@@ -69,7 +69,7 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
   } = {}) {
     const extensionConfig = {
       get: configName =>
-        configName === 'repositorySaveLocation' && repositorySaveDirectory
+        configName === 'repositoryStoreDirectoryPath' && repositorySaveDirectory
     }
     return {
       window: {

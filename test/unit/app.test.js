@@ -85,7 +85,7 @@ suite('App', () => {
     const vscWorkspace = {
       getConfig: (extensionName, configName) =>
         extensionName === 'codeReading' &&
-        configName === 'repositorySaveLocation' &&
+        configName === 'repositoryStoreDirectoryPath' &&
         repositorySaveDirectoryPath
     }
     const vscUri = {
