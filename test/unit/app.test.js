@@ -5,19 +5,21 @@ const App = require('../../lib/app')
 suite('App', () => {
   test('it tries to open a local copy of the repository', async () => {
     const executeCommand = td.function()
-    await createApp({
+    const app = createApp({
       executeCommand,
       localRepositoryPath: 'SAVE_DIR/BAZ'
-    }).fetchRepository()
+    })
+
+    await app.fetchRepository()
 
     td.verify(executeCommand('vscode.openFolder', 'URI(SAVE_DIR/BAZ)', true))
   })
 
   test('it downloads the git repository into a specified directory', async () => {
     const shellCommandRunner = td.object(['run'])
-    await createApp({
-      shellCommandRunner
-    }).fetchRepository()
+    const app = createApp({ shellCommandRunner })
+
+    await app.fetchRepository()
 
     td.verify(
       shellCommandRunner.run('git', [
@@ -32,11 +34,13 @@ suite('App', () => {
 
   test('it expands environment variables in a path', async () => {
     const shellCommandRunner = td.object(['run'])
-    await createApp({
+    const app = createApp({
       shellCommandRunner,
       repositorySaveDirectoryPath: '{{env.HOME}}/remote-repo-viewer',
       envVars: { HOME: '/PATH/TO/HOME' }
-    }).fetchRepository()
+    })
+
+    await app.fetchRepository()
 
     td.verify(
       shellCommandRunner.run(
@@ -49,27 +53,37 @@ suite('App', () => {
   test('it opens a new VS Code window to open the repository', async () => {
     const shellCommandRunner = { run: () => Promise.resolve() }
     const executeCommand = td.function()
-    await createApp({
+    const app = createApp({
       shellCommandRunner,
       executeCommand
-    }).fetchRepository()
+    })
+
+    await app.fetchRepository()
 
     td.verify(executeCommand('vscode.openFolder', 'URI(SAVE_DIR/BAZ)', true))
   })
 
-  test('it throws an exception if downloading encounters problem', () => {
+  test('it throws an exception if downloading encounters a problem', () => {
     const shellCommandRunner = {
       run: () => Promise.reject(new Error('UNKNOWN'))
     }
-    const app = createApp({
-      shellCommandRunner
+    const app = createApp({ shellCommandRunner })
+    return app.fetchRepository().then(throwsIfCalled, e => {
+      expect(e.message).to.eql('UNKNOWN')
     })
-    return app.fetchRepository().then(
-      () => new Error('Should have been rejected'),
-      e => {
-        expect(e.message).to.eql('UNKNOWN')
-      }
-    )
+  })
+
+  test('it logs an error if the command encounters a problem', async () => {
+    const shellCommandRunner = {
+      run: () => Promise.reject(new Error('UNKNOWN'))
+    }
+    const errorLogger = td.function()
+    const app = createApp({ shellCommandRunner, errorLogger })
+    try {
+      await app.fetchRepository()
+    } catch (_e) {
+      td.verify(errorLogger(td.matchers.contains('UNKNOWN')))
+    }
   })
 
   function createApp ({
@@ -77,7 +91,8 @@ suite('App', () => {
     executeCommand = () => Promise.resolve(),
     localRepositoryPath,
     repositorySaveDirectoryPath = 'SAVE_DIR',
-    envVars = {}
+    envVars = {},
+    errorLogger = () => {}
   } = {}) {
     const vscWindow = {
       showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
@@ -107,7 +122,12 @@ suite('App', () => {
       vscWindow,
       vscWorkspace,
       fileStats,
-      envVarReader
+      envVarReader,
+      logger: { error: errorLogger }
     })
+  }
+
+  function throwsIfCalled () {
+    throw new Error('Should have been rejected')
   }
 })
