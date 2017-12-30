@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ryu1kn/vscode-code-reading.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-code-reading)
+[![Build Status](https://travis-ci.org/ryu1kn/vscode-remote-repo-viewer.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-remote-repo-viewer)
 
 # Remote Repository Viewer
 
@@ -9,7 +9,7 @@ Use your favourite editor (i.e. VS Code) to do code reading.
 * Clone the repository you want to read and open it in a new window
 * Do not clone and just open in a new window if the repository is previously cloned
 
-![Download and open repository in new window](https://raw.githubusercontent.com/ryu1kn/vscode-code-reading/master/images/public.gif)
+![Download and open repository in new window](https://raw.githubusercontent.com/ryu1kn/vscode-remote-repo-viewer/master/images/public.gif)
 
 ## Requirements
 
@@ -23,8 +23,8 @@ This extension contributes the following settings:
 
 ## Request Features or Report Bugs
 
-* https://github.com/ryu1kn/vscode-code-reading/issues
+* https://github.com/ryu1kn/vscode-remote-repo-viewer/issues
 
 ## Changelog
 
-* https://github.com/ryu1kn/vscode-code-reading/blob/master/CHANGELOG.md
+* https://github.com/ryu1kn/vscode-remote-repo-viewer/blob/master/CHANGELOG.md

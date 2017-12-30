@@ -1,5 +1,5 @@
 {
-  "name": "vscode-code-reading-scenario",
+  "name": "vscode-remote-repo-viewer-scenario",
   "scripts": {
     "pretest": "yarn",
     "test": "cucumber-js"

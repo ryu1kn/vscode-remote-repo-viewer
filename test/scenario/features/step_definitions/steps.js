@@ -6,12 +6,17 @@ const path = require('path')
 const td = require('testdouble')
 
 const AppFactory = require('../../../../lib/app-factory')
+const EnvVarReader = require('../../../../lib/env-var-reader')
 const ShellCommandRunner = require('../../../../lib/shell-command-runner')
 
 const TMP_DIR_PATH = path.resolve(__dirname, './../../__tmp')
 
 const appFactory = new AppFactory()
-const shellCommandRunner = new ShellCommandRunner({ childProcess })
+const envVarReader = new EnvVarReader({ env: process.env })
+const shellCommandRunner = new ShellCommandRunner({
+  childProcess,
+  envVarReader
+})
 
 defineSupportCode(({ defineStep, BeforeAll }) => {
   let repositorySaveDirectory
@@ -33,7 +38,12 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
         repositoryUrl: gitUrl,
         executeCommand: fakeExecuteCommand
       })
-      const app = appFactory.create({ shellCommandRunner, vscode, fs })
+      const app = appFactory.create({
+        envVarReader,
+        shellCommandRunner,
+        vscode,
+        fs
+      })
 
       await app.fetchRepository()
     }
