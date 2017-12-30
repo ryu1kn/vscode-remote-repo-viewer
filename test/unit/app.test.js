@@ -32,6 +32,17 @@ suite('App', () => {
     )
   })
 
+  test('it tells user to specify the repository url they want to open', async () => {
+    const shellCommandRunner = td.object(['run'])
+    const showInputBox = td.function()
+    td
+      .when(showInputBox('Git Repository URL'))
+      .thenResolve('git@FOO.com:BAR/BAZ.git')
+    const app = createApp({ shellCommandRunner, showInputBox })
+
+    await app.fetchRepository()
+  })
+
   test('it expands environment variables in a path', async () => {
     const shellCommandRunner = td.object(['run'])
     const app = createApp({
@@ -92,11 +103,10 @@ suite('App', () => {
     localRepositoryPath,
     repositorySaveDirectoryPath = 'SAVE_DIR',
     envVars = {},
-    errorLogger = () => {}
+    errorLogger = () => {},
+    showInputBox = () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
   } = {}) {
-    const vscWindow = {
-      showInputBox: () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
-    }
+    const vscWindow = { showInputBox }
     const vscWorkspace = {
       getConfig: (extensionName, configName) =>
         extensionName === 'remoteRepoViewer' &&
