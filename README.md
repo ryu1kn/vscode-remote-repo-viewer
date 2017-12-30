@@ -22,7 +22,10 @@ This extension fetches the repository into a user defined directory and open it 
 
 This extension contributes the following settings:
 
-* `remoteRepoViewer.repositoryStoreDirectoryPath`: Path of the directory where repositories are saved
+* `remoteRepoViewer.repositoryStoreDirectoryPath`
+
+    Path of the directory where repositories are saved. Environment variable `ENV_NAME` can be used as `{{env.ENV_NAME}}`.
+    e.g. `{{env.HOME}}/remote-repo-viewer`
 
 ## Request Features or Report Bugs
 
