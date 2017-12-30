@@ -2,7 +2,10 @@
 
 # Remote Repository Viewer
 
-Use your favourite editor (i.e. VS Code) to do code reading.
+Found an interesting repository and want to check it in detail?
+Use VS Code for the effective code reading.
+
+This extension fetches the repository into a user defined directory and open it in a new editor window.
 
 ## Features
 
