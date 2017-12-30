@@ -42,6 +42,13 @@ suite('App', () => {
     await app.fetchRepository()
   })
 
+  test("it does nothing if user didn't enter a git repository URL", async () => {
+    const showInputBox = () => {}
+    const app = createApp({ showInputBox })
+
+    await app.fetchRepository() // No errors
+  })
+
   test('it expands environment variables in a path', async () => {
     const runShellCommandRunner = td.function()
     const app = createApp({
