@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/ryu1kn/vscode-code-reading.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-code-reading)
 
-# Code Reading
+# Remote Repository Viewer
 
 Use your favourite editor (i.e. VS Code) to do code reading.
 
@@ -19,7 +19,7 @@ Use your favourite editor (i.e. VS Code) to do code reading.
 
 This extension contributes the following settings:
 
-* `codeReading.repositoryStoreDirectoryPath`: Path of the directory where repositories are saved
+* `remoteRepoViewer.repositoryStoreDirectoryPath`: Path of the directory where repositories are saved
 
 ## Request Features or Report Bugs
 

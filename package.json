@@ -1,7 +1,7 @@
 {
-  "name": "code-reading",
-  "displayName": "Code Reading",
-  "description": "Code Reader",
+  "name": "remote-repo-viewer",
+  "displayName": "Remote Repository Viewer",
+  "description": "Open remote repository in a new window to help effective code reading",
   "version": "0.0.1",
   "publisher": "ryu1kn",
   "license": "SEE LICENSE IN LICENSE.txt",
@@ -12,25 +12,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:codeReading.openRepository"
+    "onCommand:remoteRepoViewer.openRepository"
   ],
   "main": "./extension",
   "contributes": {
     "commands": [
       {
-        "command": "codeReading.openRepository",
+        "command": "remoteRepoViewer.openRepository",
         "title": "Open repository in a new window",
-        "category": "CodeReading"
+        "category": "RemoteRepoViewer"
       }
     ],
     "configuration": {
       "type": "object",
-      "title": "Code Reading configurations",
+      "title": "Remote Repository Viewer configurations",
       "properties": {
-        "codeReading.repositoryStoreDirectoryPath": {
+        "remoteRepoViewer.repositoryStoreDirectoryPath": {
           "description": "Path of the directory where repositories are saved",
           "type": "string",
-          "default": "{{env.HOME}}/code-reading"
+          "default": "{{env.HOME}}/remote-repo-viewer"
         }
       }
     }

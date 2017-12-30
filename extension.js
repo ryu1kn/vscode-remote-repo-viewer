@@ -20,7 +20,7 @@ const app = new AppFactory().create({
 
 exports.activate = context => {
   const disposable = vscode.commands.registerCommand(
-    'codeReading.openRepository',
+    'remoteRepoViewer.openRepository',
     app.fetchRepository,
     app
   )

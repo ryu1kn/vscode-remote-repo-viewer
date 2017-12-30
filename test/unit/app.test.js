@@ -34,14 +34,14 @@ suite('App', () => {
     const shellCommandRunner = td.object(['run'])
     await createApp({
       shellCommandRunner,
-      repositorySaveDirectoryPath: '{{env.HOME}}/code-reading',
+      repositorySaveDirectoryPath: '{{env.HOME}}/remote-repo-viewer',
       envVars: { HOME: '/PATH/TO/HOME' }
     }).fetchRepository()
 
     td.verify(
       shellCommandRunner.run(
         td.matchers.anything(),
-        td.matchers.contains('/PATH/TO/HOME/code-reading/BAZ')
+        td.matchers.contains('/PATH/TO/HOME/remote-repo-viewer/BAZ')
       )
     )
   })
@@ -84,7 +84,7 @@ suite('App', () => {
     }
     const vscWorkspace = {
       getConfig: (extensionName, configName) =>
-        extensionName === 'codeReading' &&
+        extensionName === 'remoteRepoViewer' &&
         configName === 'repositoryStoreDirectoryPath' &&
         repositorySaveDirectoryPath
     }

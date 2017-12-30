@@ -77,7 +77,7 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
       },
       workspace: {
         getConfiguration: extensionName =>
-          extensionName === 'codeReading' && extensionConfig
+          extensionName === 'remoteRepoViewer' && extensionConfig
       },
       Uri: { file: filePath => `URI(${filePath})` },
       commands: {
