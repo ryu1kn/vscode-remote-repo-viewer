@@ -16,13 +16,13 @@ suite('App', () => {
   })
 
   test('it downloads the git repository into a specified directory', async () => {
-    const shellCommandRunner = td.object(['run'])
-    const app = createApp({ shellCommandRunner })
+    const runShellCommandRunner = td.function()
+    const app = createApp({ runShellCommandRunner })
 
     await app.fetchRepository()
 
     td.verify(
-      shellCommandRunner.run('git', [
+      runShellCommandRunner('git', [
         'clone',
         '--depth',
         '1',
@@ -33,20 +33,19 @@ suite('App', () => {
   })
 
   test('it tells user to specify the repository url they want to open', async () => {
-    const shellCommandRunner = td.object(['run'])
     const showInputBox = td.function()
     td
       .when(showInputBox('Git Repository URL'))
       .thenResolve('git@FOO.com:BAR/BAZ.git')
-    const app = createApp({ shellCommandRunner, showInputBox })
+    const app = createApp({ showInputBox })
 
     await app.fetchRepository()
   })
 
   test('it expands environment variables in a path', async () => {
-    const shellCommandRunner = td.object(['run'])
+    const runShellCommandRunner = td.function()
     const app = createApp({
-      shellCommandRunner,
+      runShellCommandRunner,
       repositorySaveDirectoryPath: '{{env.HOME}}/remote-repo-viewer',
       envVars: { HOME: '/PATH/TO/HOME' }
     })
@@ -54,7 +53,7 @@ suite('App', () => {
     await app.fetchRepository()
 
     td.verify(
-      shellCommandRunner.run(
+      runShellCommandRunner(
         td.matchers.anything(),
         td.matchers.contains('/PATH/TO/HOME/remote-repo-viewer/BAZ')
       )
@@ -62,12 +61,8 @@ suite('App', () => {
   })
 
   test('it opens a new VS Code window to open the repository', async () => {
-    const shellCommandRunner = { run: () => Promise.resolve() }
     const executeCommand = td.function()
-    const app = createApp({
-      shellCommandRunner,
-      executeCommand
-    })
+    const app = createApp({ executeCommand })
 
     await app.fetchRepository()
 
@@ -75,21 +70,17 @@ suite('App', () => {
   })
 
   test('it throws an exception if downloading encounters a problem', () => {
-    const shellCommandRunner = {
-      run: () => Promise.reject(new Error('UNKNOWN'))
-    }
-    const app = createApp({ shellCommandRunner })
+    const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
+    const app = createApp({ runShellCommandRunner })
     return app.fetchRepository().then(throwsIfCalled, e => {
       expect(e.message).to.eql('UNKNOWN')
     })
   })
 
   test('it logs an error if the command encounters a problem', async () => {
-    const shellCommandRunner = {
-      run: () => Promise.reject(new Error('UNKNOWN'))
-    }
+    const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
     const errorLogger = td.function()
-    const app = createApp({ shellCommandRunner, errorLogger })
+    const app = createApp({ runShellCommandRunner, errorLogger })
     try {
       await app.fetchRepository()
     } catch (_e) {
@@ -98,7 +89,7 @@ suite('App', () => {
   })
 
   function createApp ({
-    shellCommandRunner,
+    runShellCommandRunner = () => Promise.resolve(),
     executeCommand = () => Promise.resolve(),
     localRepositoryPath,
     repositorySaveDirectoryPath = 'SAVE_DIR',
@@ -106,6 +97,7 @@ suite('App', () => {
     errorLogger = () => {},
     showInputBox = () => Promise.resolve('git@FOO.com:BAR/BAZ.git')
   } = {}) {
+    const shellCommandRunner = { run: runShellCommandRunner }
     const vscWindow = { showInputBox }
     const vscWorkspace = {
       getConfig: (extensionName, configName) =>
@@ -125,6 +117,7 @@ suite('App', () => {
       existsDirectory: path => Promise.resolve(path === localRepositoryPath)
     }
     const envVarReader = { read: name => envVars[name] }
+    const logger = { error: errorLogger }
     return new App({
       shellCommandRunner,
       vscCommands,
@@ -133,7 +126,7 @@ suite('App', () => {
       vscWorkspace,
       fileStats,
       envVarReader,
-      logger: { error: errorLogger }
+      logger
     })
   }
 
