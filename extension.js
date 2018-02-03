@@ -11,14 +11,14 @@ const shellCommandRunner = new ShellCommandRunner({
   childProcess,
   envVarReader
 })
-const fetchRepositoryCommand = new CommandFactory().createFetchRepositoryCommand(
-  {
-    vscode,
-    shellCommandRunner,
-    envVarReader,
-    fs
-  }
-)
+
+const commandFactory = new CommandFactory({
+  vscode,
+  shellCommandRunner,
+  envVarReader,
+  fs
+})
+const fetchRepositoryCommand = commandFactory.createFetchRepositoryCommand()
 
 exports.activate = context => {
   const disposable = vscode.commands.registerCommand(

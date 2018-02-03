@@ -11,7 +11,6 @@ const ShellCommandRunner = require('../../../../lib/shell-command-runner')
 
 const TMP_DIR_PATH = path.resolve(__dirname, './../../__tmp')
 
-const commandFactory = new CommandFactory()
 const envVarReader = new EnvVarReader({ env: process.env })
 const shellCommandRunner = new ShellCommandRunner({
   childProcess,
@@ -38,12 +37,13 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
         repositoryUrl: gitUrl,
         executeCommand: fakeExecuteCommand
       })
-      const command = commandFactory.createFetchRepositoryCommand({
+      const commandFactory = new CommandFactory({
         envVarReader,
         shellCommandRunner,
         vscode,
         fs
       })
+      const command = commandFactory.createFetchRepositoryCommand()
 
       await command.fetchRepository()
     }
