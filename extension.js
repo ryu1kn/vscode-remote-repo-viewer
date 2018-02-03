@@ -11,18 +11,20 @@ const shellCommandRunner = new ShellCommandRunner({
   childProcess,
   envVarReader
 })
-const app = new CommandFactory().create({
-  vscode,
-  shellCommandRunner,
-  envVarReader,
-  fs
-})
+const fetchRepositoryCommand = new CommandFactory().createFetchRepositoryCommand(
+  {
+    vscode,
+    shellCommandRunner,
+    envVarReader,
+    fs
+  }
+)
 
 exports.activate = context => {
   const disposable = vscode.commands.registerCommand(
     'remoteRepoViewer.openRepository',
-    app.fetchRepository,
-    app
+    fetchRepositoryCommand.fetchRepository,
+    fetchRepositoryCommand
   )
   context.subscriptions.push(disposable)
 }
