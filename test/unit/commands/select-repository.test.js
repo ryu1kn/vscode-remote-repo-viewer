@@ -1,5 +1,5 @@
 const td = require('testdouble')
-const SelectRepositoryCommand = require('../../lib/select-repository-command')
+const SelectRepositoryCommand = require('../../../lib/commands/select-repository')
 
 suite('SelectRepositoryCommand', () => {
   test('it lets user to open a repository already downloaded', async () => {
