@@ -5,13 +5,13 @@ const rimraf = require('rimraf')
 const path = require('path')
 const td = require('testdouble')
 
-const AppFactory = require('../../../../lib/app-factory')
+const CommandFactory = require('../../../../lib/command-factory')
 const EnvVarReader = require('../../../../lib/env-var-reader')
 const ShellCommandRunner = require('../../../../lib/shell-command-runner')
 
 const TMP_DIR_PATH = path.resolve(__dirname, './../../__tmp')
 
-const appFactory = new AppFactory()
+const appFactory = new CommandFactory()
 const envVarReader = new EnvVarReader({ env: process.env })
 const shellCommandRunner = new ShellCommandRunner({
   childProcess,

@@ -2,7 +2,7 @@ const vscode = require('vscode')
 const childProcess = require('child_process')
 const fs = require('fs')
 
-const AppFactory = require('./lib/app-factory')
+const CommandFactory = require('./lib/command-factory')
 const EnvVarReader = require('./lib/env-var-reader')
 const ShellCommandRunner = require('./lib/shell-command-runner')
 
@@ -11,7 +11,7 @@ const shellCommandRunner = new ShellCommandRunner({
   childProcess,
   envVarReader
 })
-const app = new AppFactory().create({
+const app = new CommandFactory().create({
   vscode,
   shellCommandRunner,
   envVarReader,
