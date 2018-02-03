@@ -1,5 +1,6 @@
 {
   "name": "vscode-remote-repo-viewer-scenario",
+  "private": true,
   "scripts": {
     "pretest": "yarn",
     "test": "cucumber-js"
