@@ -54,7 +54,7 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "lint": "eslint .",
     "test": "yarn run test:unit && yarn run test:scenario",
-    "test:unit": "mocha --ui tdd test/unit",
+    "test:unit": "mocha --ui tdd --recursive test/unit",
     "test:integration": "node ./node_modules/vscode/bin/test",
     "test:scenario": "cd test/scenario && yarn test"
   },

@@ -1,11 +1,11 @@
 const { expect } = require('chai')
 const td = require('testdouble')
-const App = require('../../lib/app')
+const FetchRepositoryCommand = require('../../../lib/commands/fetch-repository')
 
-suite('App', () => {
+suite('FetchRepositoryCommand', () => {
   test('it tries to open a local copy of the repository', async () => {
     const executeCommand = td.function()
-    const app = createApp({
+    const app = createFetchRepositoryCommand({
       executeCommand,
       localRepositoryPath: 'SAVE_DIR/BAZ'
     })
@@ -17,7 +17,7 @@ suite('App', () => {
 
   test('it downloads the git repository into a specified directory', async () => {
     const runShellCommandRunner = td.function()
-    const app = createApp({ runShellCommandRunner })
+    const app = createFetchRepositoryCommand({ runShellCommandRunner })
 
     await app.fetchRepository()
 
@@ -37,21 +37,21 @@ suite('App', () => {
     td
       .when(showInputBox('Git Repository URL'))
       .thenResolve('git@FOO.com:BAR/BAZ.git')
-    const app = createApp({ showInputBox })
+    const app = createFetchRepositoryCommand({ showInputBox })
 
     await app.fetchRepository()
   })
 
   test("it does nothing if user didn't enter a git repository URL", async () => {
     const showInputBox = () => {}
-    const app = createApp({ showInputBox })
+    const app = createFetchRepositoryCommand({ showInputBox })
 
     await app.fetchRepository() // No errors
   })
 
   test('it expands environment variables in a path', async () => {
     const runShellCommandRunner = td.function()
-    const app = createApp({
+    const app = createFetchRepositoryCommand({
       runShellCommandRunner,
       repositorySaveDirectoryPath: '{{env.HOME}}/remote-repo-viewer',
       envVars: { HOME: '/PATH/TO/HOME' }
@@ -69,7 +69,7 @@ suite('App', () => {
 
   test('it opens a new VS Code window to open the repository', async () => {
     const executeCommand = td.function()
-    const app = createApp({ executeCommand })
+    const app = createFetchRepositoryCommand({ executeCommand })
 
     await app.fetchRepository()
 
@@ -78,7 +78,7 @@ suite('App', () => {
 
   test('it throws an exception if downloading encounters a problem', () => {
     const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
-    const app = createApp({ runShellCommandRunner })
+    const app = createFetchRepositoryCommand({ runShellCommandRunner })
     return app.fetchRepository().then(throwsIfCalled, e => {
       expect(e.message).to.eql('UNKNOWN')
     })
@@ -87,7 +87,10 @@ suite('App', () => {
   test('it logs an error if the command encounters a problem', async () => {
     const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
     const errorLogger = td.function()
-    const app = createApp({ runShellCommandRunner, errorLogger })
+    const app = createFetchRepositoryCommand({
+      runShellCommandRunner,
+      errorLogger
+    })
     try {
       await app.fetchRepository()
     } catch (_e) {
@@ -95,7 +98,7 @@ suite('App', () => {
     }
   })
 
-  function createApp ({
+  function createFetchRepositoryCommand ({
     runShellCommandRunner = () => Promise.resolve(),
     executeCommand = () => Promise.resolve(),
     localRepositoryPath,
@@ -125,7 +128,7 @@ suite('App', () => {
     }
     const envVarReader = { read: name => envVars[name] }
     const logger = { error: errorLogger }
-    return new App({
+    return new FetchRepositoryCommand({
       shellCommandRunner,
       vscCommands,
       vscUri,
