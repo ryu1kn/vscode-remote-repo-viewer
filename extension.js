@@ -23,7 +23,7 @@ exports.activate = context => {
   const openRepositoryCommand = commandFactory.createOpenRepositoryCommand()
   const disposable = vscode.commands.registerCommand(
     'remoteRepoViewer.openRepository',
-    openRepositoryCommand.fetchRepository,
+    openRepositoryCommand.execute,
     openRepositoryCommand
   )
   context.subscriptions.push(disposable)
@@ -31,7 +31,7 @@ exports.activate = context => {
   const openDownloadedRepositoryCommand = commandFactory.createOpenDownloadedRepositoryCommand()
   const disposable2 = vscode.commands.registerCommand(
     'remoteRepoViewer.openDownloadedRepository',
-    openDownloadedRepositoryCommand.selectRepository,
+    openDownloadedRepositoryCommand.execute,
     openDownloadedRepositoryCommand
   )
   context.subscriptions.push(disposable2)

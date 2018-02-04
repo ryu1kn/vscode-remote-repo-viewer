@@ -16,7 +16,7 @@ suite('OpenDownloadedRepository', () => {
       vscWindow
     })
 
-    await command.selectRepository()
+    await command.execute()
 
     td.verify(repositoryDisplayer.display('SAVE_DIR/BAZ/REPO_A'))
   })

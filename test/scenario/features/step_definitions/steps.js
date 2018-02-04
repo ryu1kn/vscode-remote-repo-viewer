@@ -45,7 +45,7 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
       })
       const command = commandFactory.createOpenRepositoryCommand()
 
-      await command.fetchRepository()
+      await command.execute()
     }
   )
 

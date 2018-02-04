@@ -10,7 +10,7 @@ suite('OpenRepositoryCommand', () => {
       localRepositoryPath: 'SAVE_DIR/BAZ'
     })
 
-    await command.fetchRepository()
+    await command.execute()
 
     td.verify(displayRepository('SAVE_DIR/BAZ'))
   })
@@ -19,7 +19,7 @@ suite('OpenRepositoryCommand', () => {
     const runShellCommandRunner = td.function()
     const command = createOpenRepositoryCommand({ runShellCommandRunner })
 
-    await command.fetchRepository()
+    await command.execute()
 
     td.verify(
       runShellCommandRunner('git', [
@@ -39,20 +39,20 @@ suite('OpenRepositoryCommand', () => {
       .thenResolve('git@FOO.com:BAR/BAZ.git')
     const command = createOpenRepositoryCommand({ showInputBox })
 
-    await command.fetchRepository()
+    await command.execute()
   })
 
   test("it does nothing if user didn't enter a git repository URL", async () => {
     const showInputBox = () => {}
     const command = createOpenRepositoryCommand({ showInputBox })
 
-    await command.fetchRepository() // No errors
+    await command.execute() // No errors
   })
 
   test('it throws an exception if downloading encounters a problem', () => {
     const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
     const command = createOpenRepositoryCommand({ runShellCommandRunner })
-    return command.fetchRepository().then(throwsIfCalled, e => {
+    return command.execute().then(throwsIfCalled, e => {
       expect(e.message).to.eql('UNKNOWN')
     })
   })
@@ -65,7 +65,7 @@ suite('OpenRepositoryCommand', () => {
       errorLogger
     })
     try {
-      await command.fetchRepository()
+      await command.execute()
     } catch (_e) {
       td.verify(errorLogger(td.matchers.contains('UNKNOWN')))
     }
