@@ -11,6 +11,7 @@ This extension fetches the repository into a user defined directory and open it 
 
 * Clone the repository you want to read and open it in a new window
 * Do not clone and just open in a new window if the repository is previously cloned
+* Show the list of already cloned repositories so that user can quickly open them
 
 ![Download and open repository in new window](https://raw.githubusercontent.com/ryu1kn/vscode-remote-repo-viewer/master/images/public.gif)
 
