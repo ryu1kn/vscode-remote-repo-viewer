@@ -20,21 +20,29 @@ const commandFactory = new CommandFactory({
 })
 
 exports.activate = context => {
-  const openRepositoryCommand = commandFactory.createOpenRepositoryCommand()
-  const disposable = vscode.commands.registerCommand(
-    'remoteRepoViewer.openRepository',
-    openRepositoryCommand.execute,
-    openRepositoryCommand
-  )
-  context.subscriptions.push(disposable)
+  const commandList = [
+    {
+      name: 'openRepository',
+      factoryMethodName: 'createOpenRepositoryCommand'
+    },
+    {
+      name: 'openDownloadedRepository',
+      factoryMethodName: 'createOpenDownloadedRepositoryCommand'
+    }
+  ]
+  registerCommands(context, commandList)
+}
 
-  const openDownloadedRepositoryCommand = commandFactory.createOpenDownloadedRepositoryCommand()
-  const disposable2 = vscode.commands.registerCommand(
-    'remoteRepoViewer.openDownloadedRepository',
-    openDownloadedRepositoryCommand.execute,
-    openDownloadedRepositoryCommand
-  )
-  context.subscriptions.push(disposable2)
+function registerCommands (context, commandList) {
+  commandList.forEach(command => {
+    const cmd = commandFactory[command.factoryMethodName]()
+    const disposable = vscode.commands.registerCommand(
+      `remoteRepoViewer.${command.name}`,
+      cmd.execute,
+      cmd
+    )
+    context.subscriptions.push(disposable)
+  })
 }
 
 exports.deactivate = () => {}
