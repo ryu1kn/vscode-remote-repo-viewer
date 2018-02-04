@@ -43,7 +43,7 @@ defineSupportCode(({ defineStep, BeforeAll }) => {
         vscode,
         fs
       })
-      const command = commandFactory.createFetchRepositoryCommand()
+      const command = commandFactory.createOpenRepositoryCommand()
 
       await command.fetchRepository()
     }

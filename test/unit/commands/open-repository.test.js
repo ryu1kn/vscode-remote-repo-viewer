@@ -1,25 +1,25 @@
 const { expect } = require('chai')
 const td = require('testdouble')
-const FetchRepositoryCommand = require('../../../lib/commands/fetch-repository')
+const OpenRepositoryCommand = require('../../../lib/commands/open-repository')
 
-suite('FetchRepositoryCommand', () => {
+suite('OpenRepositoryCommand', () => {
   test('it tries to open a local copy of the repository', async () => {
     const displayRepository = td.function()
-    const app = createFetchRepositoryCommand({
+    const command = createOpenRepositoryCommand({
       displayRepository,
       localRepositoryPath: 'SAVE_DIR/BAZ'
     })
 
-    await app.fetchRepository()
+    await command.fetchRepository()
 
     td.verify(displayRepository('SAVE_DIR/BAZ'))
   })
 
   test('it downloads the git repository into a specified directory', async () => {
     const runShellCommandRunner = td.function()
-    const app = createFetchRepositoryCommand({ runShellCommandRunner })
+    const command = createOpenRepositoryCommand({ runShellCommandRunner })
 
-    await app.fetchRepository()
+    await command.fetchRepository()
 
     td.verify(
       runShellCommandRunner('git', [
@@ -37,22 +37,22 @@ suite('FetchRepositoryCommand', () => {
     td
       .when(showInputBox('Git Repository URL'))
       .thenResolve('git@FOO.com:BAR/BAZ.git')
-    const app = createFetchRepositoryCommand({ showInputBox })
+    const command = createOpenRepositoryCommand({ showInputBox })
 
-    await app.fetchRepository()
+    await command.fetchRepository()
   })
 
   test("it does nothing if user didn't enter a git repository URL", async () => {
     const showInputBox = () => {}
-    const app = createFetchRepositoryCommand({ showInputBox })
+    const command = createOpenRepositoryCommand({ showInputBox })
 
-    await app.fetchRepository() // No errors
+    await command.fetchRepository() // No errors
   })
 
   test('it throws an exception if downloading encounters a problem', () => {
     const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
-    const app = createFetchRepositoryCommand({ runShellCommandRunner })
-    return app.fetchRepository().then(throwsIfCalled, e => {
+    const command = createOpenRepositoryCommand({ runShellCommandRunner })
+    return command.fetchRepository().then(throwsIfCalled, e => {
       expect(e.message).to.eql('UNKNOWN')
     })
   })
@@ -60,18 +60,18 @@ suite('FetchRepositoryCommand', () => {
   test('it logs an error if the command encounters a problem', async () => {
     const runShellCommandRunner = () => Promise.reject(new Error('UNKNOWN'))
     const errorLogger = td.function()
-    const app = createFetchRepositoryCommand({
+    const command = createOpenRepositoryCommand({
       runShellCommandRunner,
       errorLogger
     })
     try {
-      await app.fetchRepository()
+      await command.fetchRepository()
     } catch (_e) {
       td.verify(errorLogger(td.matchers.contains('UNKNOWN')))
     }
   })
 
-  function createFetchRepositoryCommand ({
+  function createOpenRepositoryCommand ({
     runShellCommandRunner = () => Promise.resolve(),
     displayRepository = () => {},
     localRepositoryPath,
@@ -87,7 +87,7 @@ suite('FetchRepositoryCommand', () => {
       existsDirectory: path => Promise.resolve(path === localRepositoryPath)
     }
     const logger = { error: errorLogger }
-    return new FetchRepositoryCommand({
+    return new OpenRepositoryCommand({
       configStore,
       repositoryDisplayer,
       shellCommandRunner,

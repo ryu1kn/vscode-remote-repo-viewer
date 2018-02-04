@@ -1,7 +1,7 @@
 const td = require('testdouble')
-const SelectRepositoryCommand = require('../../../lib/commands/select-repository')
+const OpenDownloadedRepositoryCommand = require('../../../lib/commands/open-downloaded-repository')
 
-suite('SelectRepositoryCommand', () => {
+suite('OpenDownloadedRepository', () => {
   test('it lets user to open a repository already downloaded', async () => {
     const configStore = { repositorySaveDirectoryPath: 'SAVE_DIR/BAZ' }
     const directoryLister = {
@@ -9,7 +9,7 @@ suite('SelectRepositoryCommand', () => {
     }
     const vscWindow = { showQuickPick: ([repo1]) => repo1 }
     const repositoryDisplayer = { display: td.function() }
-    const command = new SelectRepositoryCommand({
+    const command = new OpenDownloadedRepositoryCommand({
       configStore,
       directoryLister,
       repositoryDisplayer,
