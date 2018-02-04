@@ -19,6 +19,11 @@ This extension fetches the repository into a user defined directory and open it 
 
 * `Git` command needs to be available.
 
+## Commands
+
+* `Open repository in a new window`
+* `Open one of already downloaded repositories in a new window`
+
 ## Extension Settings
 
 This extension contributes the following settings:
