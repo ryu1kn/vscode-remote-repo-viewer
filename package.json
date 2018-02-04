@@ -27,7 +27,8 @@
     "viewer"
   ],
   "activationEvents": [
-    "onCommand:remoteRepoViewer.openRepository"
+    "onCommand:remoteRepoViewer.openRepository",
+    "onCommand:remoteRepoViewer.openDownloadedRepository"
   ],
   "main": "./extension",
   "contributes": {
@@ -35,6 +36,11 @@
       {
         "command": "remoteRepoViewer.openRepository",
         "title": "Open repository in a new window",
+        "category": "RemoteRepoViewer"
+      },
+      {
+        "command": "remoteRepoViewer.openDownloadedRepository",
+        "title": "Open one of already downloaded repositories in a new window",
         "category": "RemoteRepoViewer"
       }
     ],
