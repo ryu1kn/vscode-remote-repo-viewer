@@ -18,3 +18,8 @@ Feature: Open a repository on VS Code
     Given the repository save location is "{{feature-tmp-directory}}"
     When I execute open repository command and enter "n csv-writer"
     Then I see "{{feature-tmp-directory}}/npm--csv-writer" folder opened in a new window
+
+  Scenario: Opening a VS Code extension on VS Code
+    Given the repository save location is "{{feature-tmp-directory}}"
+    When I execute open repository command and enter "vsc https://marketplace.visualstudio.com/items?itemName=ryu1kn.remote-repo-viewer"
+    Then I see "{{feature-tmp-directory}}/vsc--ryu1kn--remote-repo-viewer" folder opened in a new window
