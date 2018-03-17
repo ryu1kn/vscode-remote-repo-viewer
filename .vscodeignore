@@ -12,6 +12,7 @@
 __*
 images
 jsconfig.json
+tag-release.sh
 test/**
 yarn-error.log
 yarn.lock
