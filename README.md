@@ -12,6 +12,9 @@ This extension fetches the repository into a user defined directory and open it 
 * Clone the repository you want to read and open it in a new window
 * Do not clone and just open in a new window if the repository is previously cloned
 * Show the list of already cloned repositories so that user can quickly open them
+* GitHub repository can be opened with `g` prefix. e.g. `g Microsoft/vscode`
+* npm package code can be opened with `n` prefix. e.g. `n lodash`
+* VS Code extension code can be opened with `vsc` prefix. e.g. `vsc https://marketplace.visualstudio.com/items?itemName=ryu1kn.remote-repo-viewer`
 
 ![Download and open repository in new window](https://raw.githubusercontent.com/ryu1kn/vscode-remote-repo-viewer/master/images/public.gif)
 
