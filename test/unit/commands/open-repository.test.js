@@ -32,6 +32,28 @@ suite('OpenRepositoryCommand', () => {
     )
   })
 
+  test('it downloads a repository from GitHub if user used "g" prefix', async () => {
+    const showInputBox = td.function()
+    td.when(showInputBox('Git Repository URL')).thenResolve('g BAR/BAZ')
+    const runShellCommandRunner = td.function()
+    const command = createOpenRepositoryCommand({
+      showInputBox,
+      runShellCommandRunner
+    })
+
+    await command.execute()
+
+    td.verify(
+      runShellCommandRunner('git', [
+        'clone',
+        '--depth',
+        '1',
+        'git@github.com:BAR/BAZ.git',
+        'SAVE_DIR/BAZ'
+      ])
+    )
+  })
+
   test('it tells user to specify the repository url they want to open', async () => {
     const showInputBox = td.function()
     td
