@@ -7,22 +7,19 @@ const ShellCommandRunner = require('../../lib/shell-command-runner')
 suite('ShellCommandRunner', () => {
   test('it runs a given command and collects stdout @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
-    const output = await shellCommandRunner.run('echo', ['hello'])
+    const output = await shellCommandRunner.run('echo hello')
     expect(output).to.eql('hello\n')
   })
 
   test('it makes environment variables available to the command @it', async () => {
     const shellCommandRunner = createShellCommandRunner()
-    const output = await shellCommandRunner.run('sh', [
-      '-c',
-      'echo HOME is: $HOME'
-    ])
+    const output = await shellCommandRunner.run('echo HOME is: $HOME')
     expect(output).to.have.string('HOME is: /PATH/TO/HOME')
   })
 
   test('it raises an exception if command failed @it', () => {
     const shellCommandRunner = createShellCommandRunner()
-    return shellCommandRunner.run('ls', ['NON_EXISTING_FILE']).then(
+    return shellCommandRunner.run('ls NON_EXISTING_FILE').then(
       () => new Error('Should have been failed'),
       e => {
         expect(e.message).to.include(

@@ -22,10 +22,9 @@ suite('OpenRepositoryCommand', () => {
     await command.execute()
 
     td.verify(
-      runShellCommandRunner('bash', [
-        '-c',
+      runShellCommandRunner(
         'git clone --depth 1 git@FOO.com:BAR/BAZ.git SAVE_DIR/BAZ'
-      ])
+      )
     )
   })
 
@@ -41,10 +40,9 @@ suite('OpenRepositoryCommand', () => {
     await command.execute()
 
     td.verify(
-      runShellCommandRunner('bash', [
-        '-c',
+      runShellCommandRunner(
         'git clone --depth 1 git@github.com:BAR/BAZ.git SAVE_DIR/BAZ'
-      ])
+      )
     )
   })
 
