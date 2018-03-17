@@ -76,5 +76,8 @@
     "prettier-eslint-cli": "^4.7.0",
     "testdouble": "^3.2.6",
     "vscode": "^1.1.9"
+  },
+  "dependencies": {
+    "node-fetch": "^2.1.1"
   }
 }
