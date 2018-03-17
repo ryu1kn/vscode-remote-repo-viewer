@@ -7,4 +7,4 @@ Feature: Open a GitHub repository on VS Code
   Scenario: Opening a GitHub repository on VS Code
     Given the repository save location is "{{feature-tmp-directory}}"
     When I execute open repository command and enter "git@github.com:ryu1kn/vscode-remote-repo-viewer.git"
-    Then I see "{{feature-tmp-directory}}/vscode-remote-repo-viewer" folder opened in a new window
+    Then I see "{{feature-tmp-directory}}/git--ryu1kn--vscode-remote-repo-viewer" folder opened in a new window

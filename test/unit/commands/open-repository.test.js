@@ -12,7 +12,7 @@ suite('OpenRepositoryCommand', () => {
 
     await command.execute()
 
-    td.verify(displayRepository('SAVE_DIR/BAZ'))
+    td.verify(displayRepository('SAVE_DIR/git--BAR--BAZ'))
   })
 
   test('it downloads the git repository into a specified directory', async () => {
@@ -23,7 +23,7 @@ suite('OpenRepositoryCommand', () => {
 
     td.verify(
       runShellCommandRunner(
-        'git clone --depth 1 git@FOO.com:BAR/BAZ.git SAVE_DIR/BAZ'
+        'git clone --depth 1 git@FOO.com:BAR/BAZ.git SAVE_DIR/git--BAR--BAZ'
       )
     )
   })
@@ -41,7 +41,7 @@ suite('OpenRepositoryCommand', () => {
 
     td.verify(
       runShellCommandRunner(
-        'git clone --depth 1 git@github.com:BAR/BAZ.git SAVE_DIR/BAZ'
+        'git clone --depth 1 git@github.com:BAR/BAZ.git SAVE_DIR/github--BAR--BAZ'
       )
     )
   })
