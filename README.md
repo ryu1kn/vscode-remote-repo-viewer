@@ -18,6 +18,15 @@ This extension fetches the repository into a user defined directory and open it 
 
 ![Download and open repository in new window](https://raw.githubusercontent.com/ryu1kn/vscode-remote-repo-viewer/master/images/public.gif)
 
+## Request Features or Report Bugs
+
+Feature requests and bug reports are very welcome: https://github.com/ryu1kn/vscode-remote-repo-viewer/issues
+
+A couple of requests from me when you raise an github issue.
+
+* **Requesting a feature:** Please try to provide the context of why you want the feature. Such as, in what situation the feature could help you and how, or how the lack of the feature is causing an inconvenience to you. I can't think of introducing it until I understand how it helps you 🙂
+* **Reporting a bug:** Please include environment information (OS name/version, the editor version). Also consider providing screenshots (or even videos) where appropriate. They are often very very helpful!
+
 ## Requirements
 
 * `Git` command needs to be available.
@@ -35,10 +44,6 @@ This extension contributes the following settings:
 
     Path of the directory where repositories are saved. Environment variable `ENV_NAME` can be used as `{{env.ENV_NAME}}`.
     e.g. `{{env.HOME}}/remote-repo-viewer`
-
-## Request Features or Report Bugs
-
-* https://github.com/ryu1kn/vscode-remote-repo-viewer/issues
 
 ## Changelog
 
