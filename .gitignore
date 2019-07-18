@@ -2,6 +2,7 @@
 /.vscode-test
 /.vscode/settings.json
 /.vsix
+/.idea
 node_modules
 yarn-error.log
 __*
