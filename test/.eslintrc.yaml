@@ -1,5 +1,5 @@
 globals:
   suite: true
-  test: global
+  test: readonly
 rules:
   no-unused-expressions: off
