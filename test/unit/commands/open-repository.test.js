@@ -28,6 +28,24 @@ suite('OpenRepositoryCommand', () => {
     )
   })
 
+  test('it downloads the git repository via HTTPS', async () => {
+    const showInputBox = td.function()
+    td.when(showInputBox('Git Repository URL')).thenResolve('https://FOO.com/BAR/BAZ.git')
+    const runShellCommandRunner = td.function()
+    const command = createOpenRepositoryCommand({
+      showInputBox,
+      runShellCommandRunner
+    })
+
+    await command.execute()
+
+    td.verify(
+      runShellCommandRunner(
+        'git clone --depth 1 https://FOO.com/BAR/BAZ.git SAVE_DIR/git--BAR--BAZ'
+      )
+    )
+  })
+
   test('it downloads a repository from GitHub if user used "g" prefix', async () => {
     const showInputBox = td.function()
     td.when(showInputBox('Git Repository URL')).thenResolve('g BAR/BAZ')
