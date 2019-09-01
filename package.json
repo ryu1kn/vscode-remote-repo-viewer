@@ -61,7 +61,7 @@
     "lint": "eslint .",
     "test": "yarn run test:unit",
     "test:unit": "mocha --ui tdd --recursive test/unit",
-    "test:integration": "node ./node_modules/vscode/bin/test",
+    "test:integration": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
     "chai": "^4.2.0",
